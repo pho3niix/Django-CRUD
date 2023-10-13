@@ -20,12 +20,13 @@ from evaluation import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('views/', views.mars),
-    path('home/', views.home),
-    path('api/', views.data),
-    path('api/<int:id>', views.detail),
-    path('api/add', views.add),
-    path('api/delete/<int:id>', views.delete),
-    path('api/v2/', views.MovieJson),
-    path('api/v2/<int:id>', views.MovieJson_Detail),
+    # path('views/', views.mars),
+    # path('home/', views.home),
+    # path('api/v1/', views.data),
+    # path('api/v1/<int:id>', views.detail),
+    # path('api/v1/add', views.add),
+    # path('api/v1/delete/<int:id>', views.delete),
+    # path('api/v2/', views.MovieJson),
+    # path('api/v2/<int:id>', views.MovieJson_Detail),
+    path('api/v3/', views.ZipCodeJson),
 ]

@@ -1,4 +1,5 @@
 from lib2to3.pgen2.driver import Driver
+from tkinter.messagebox import NO
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from .models import Movie
@@ -8,8 +9,73 @@ from .models import Movie
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
+from django.db import connection
+import re
+
+# ################################### API ZIP CODE ###################################
+@api_view(['GET'])
+def ZipCodeJson(request):
+    zip_code = request.GET.get('zp')
+    if request.method == 'GET':
+        if zip_code is not None and not re.match(r'^\d+$', zip_code):
+            return Response({'message': 'Please input a number value for zip code (zp) to execute API correctly.'}, status=status.HTTP_400_BAD_REQUEST)
+        if zip_code is None:
+            return Response({'message': 'Please input a value different to null for zip code (zp) to execute API correctly.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        with connection.cursor() as cursor:
+            query = "select  zp.d_codigo,  zp.d_ciudad,  zp.c_estado,  zp.d_estado,  zp.id_asenta_cpcons,  zp.d_asenta, zp.d_zona,  zp.d_tipo_asenta,  zp.c_mnpio, zp.d_mnpio from evaluation_zipcode zp where zp.d_codigo = %s"
+            cursor.execute(query, [zip_code])
+            data = cursor.fetchall()
+
+            transformed_data = {}
+
+            for item in data:
+                zip_code = item[0]
+                locality = item[1]
+                federal_identity_key = item[2]
+                federal_identity_name = item[3]
+                federal_identity_code = None
+                settlements_key = item[4]
+                settlements_name = item[5]
+                settlements_zone_type = item[6]
+                settlements_type_name = item[7]
+                municipality_key = item[8]
+                municipality_name = item[9]
+
+                if zip_code not in transformed_data:
+                    transformed_data[zip_code] = {
+                        "zip_code": zip_code,
+                        "locality": locality,
+                        "federal_identity": {
+                            "key": federal_identity_key,
+                            "name": federal_identity_name,
+                            "code": federal_identity_code,
+                        },
+                        "settlements": [],
+                        "municipality": {
+                            "key": municipality_key,
+                            "name": municipality_name
+                        }
+                    }
+
+                settlement_data = {
+                    "key": settlements_key,
+                    "name": settlements_name,
+                    "zone_type": settlements_zone_type,
+                    "settlement_type": {"name": settlements_type_name}
+                }
+
+                transformed_data[zip_code]["settlements"].append(
+                    settlement_data)
+
+        if not transformed_data:
+            return Response({'message': 'No data found', 'data': []}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            results = transformed_data[zip_code]
+            return Response({'message': 'Data fetched successfully', 'data': results}, status=status.HTTP_200_OK)
 
 
+# ################################### Learning Django ###################################
 def mars(request):
     return render(request, 'movies.html', {'movies': ['back to the future', 'x-men']})
 
