@@ -20,7 +20,7 @@ class ZipCode(models.Model):
     d_CP = models.CharField(max_length=200)
     c_estado = models.CharField(max_length=200)
     c_oficina = models.CharField(max_length=200)
-    c_CP = models.CharField(max_length=200)
+    c_CP = models.TextField()
     c_tipo_asenta = models.CharField(max_length=200)
     c_mnpio = models.CharField(max_length=200)
     id_asenta_cpcons = models.CharField(max_length=200)
