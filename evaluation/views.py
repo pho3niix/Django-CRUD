@@ -1,5 +1,3 @@
-from lib2to3.pgen2.driver import Driver
-from tkinter.messagebox import NO
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from .models import Movie
