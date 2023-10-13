@@ -25,9 +25,7 @@ try:
             skip = False
             continue
         data_dict = df.to_dict(orient='records')
-        extracted_data.extend(data_dict)
-
-    ZipCode.objects.bulk_create([ZipCode(**item) for item in extracted_data])
+        ZipCode.objects.bulk_create([ZipCode(**item) for item in data_dict])
 
     print("Data from excel inserted successfully")
 
