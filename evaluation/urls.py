@@ -26,4 +26,6 @@ urlpatterns = [
     path('api/<int:id>', views.detail),
     path('api/add', views.add),
     path('api/delete/<int:id>', views.delete),
+    path('api/v2/', views.MovieJson),
+    path('api/v2/<int:id>', views.MovieJson_Detail),
 ]
