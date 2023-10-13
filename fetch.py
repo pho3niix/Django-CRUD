@@ -1,33 +1,25 @@
-from django.core.management import call_command
 import pandas as pd
 import os
-import json
 import django
+from sqlalchemy import create_engine
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'evaluation.settings')
 
 django.setup()
 
-from evaluation.models import ZipCode
+db_url = 'mysql://root:@localhost/States'
 
 excel_path = os.path.join(os.path.dirname(
-    os.path.abspath(__file__)), 'CPdescarga.xls')
+    os.path.abspath(__file__)), 'CPdescarga.txt')
 
 try:
-    excel_data = pd.read_excel(excel_path, sheet_name=None)
+    data = pd.read_csv(excel_path, delimiter='|')
 
-    extracted_data = []
+    engine = create_engine(db_url)
 
-    skip = True
+    data.to_sql('evaluation_zipcode', engine, if_exists='replace', index=False)
 
-    for sheet_name, df in excel_data.items():
-        if skip:
-            skip = False
-            continue
-        data_dict = df.to_dict(orient='records')
-        ZipCode.objects.bulk_create([ZipCode(**item) for item in data_dict])
-
-    print("Data from excel inserted successfully")
+    print(f'Data transferred to MySQL table: evaluation')
 
 except FileNotFoundError:
     print("file not found")
