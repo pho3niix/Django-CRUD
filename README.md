@@ -1,7 +1,6 @@
 # Django ZIP Code app
 Está aplicación brinda información sobre las colonias y municipios pertenecientes a un código postal específico.
 
-## Assignment
 ### Setup
 1. Instalar MySQL
 2. Instalar Python
