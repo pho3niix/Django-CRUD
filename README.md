@@ -3,13 +3,15 @@ Está aplicación brinda información sobre las colonias y municipios pertenecie
 
 ## Assignment
 ### Setup
-1. Iniciar el entorno de Django.
-2. Instalar dependencias registradas en el archivo requirement.txt.
-3. Crear base de datos llamada "States" en MySQL.
-4. Iniciar migraciones en base a los modelos.
-5. Migrar a base de datos MySQL.
-6. Respaldar datos desde archivo CPdescarga.txt usando el archivo fetch.py.
-7. Iniciar servidor.
+1. Instalar MySQL
+2. Instalar Python
+3. Instalar dependencias registradas en el archivo requirement.txt.
+4. Iniciar el entorno de Django.
+5. Crear base de datos llamada "States" en MySQL.
+6. Iniciar migraciones en base a los modelos.
+7. Migrar a base de datos MySQL.
+8. Respaldar datos desde archivo CPdescarga.txt usando el archivo fetch.py.
+9. Iniciar servidor.
 
 ## Init Django environment
 ```bash
