@@ -38,6 +38,8 @@ python fetch.py
 python manage.py runserver
 ```
 
+## Access URL
+http://ec2-3-82-193-231.compute-1.amazonaws.com/api/v3/?zp=66055
 
 ### Requirements
 - Mysql
